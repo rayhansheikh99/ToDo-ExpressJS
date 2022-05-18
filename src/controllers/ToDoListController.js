@@ -106,3 +106,17 @@ exports.RemoveToDo = (req,res)=>{
     })
     
 }
+
+exports.SelectToDoByStatus = (req,res)=>{
+    let UserName = req.headers['username']
+    let TodoStatus = req.body['TodoStatus']
+    ToDoListModel.find({UserName:UserName,TodoStatus:TodoStatus},(err,data)=>{
+        if(err){
+            res.status(400).json({status:"Fail",data:err})
+        }
+        else {
+            res.status(200).json({status:"Success",data:data})
+        }
+    })
+    
+}
