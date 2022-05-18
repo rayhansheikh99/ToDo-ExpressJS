@@ -110,7 +110,25 @@ exports.RemoveToDo = (req,res)=>{
 exports.SelectToDoByStatus = (req,res)=>{
     let UserName = req.headers['username']
     let TodoStatus = req.body['TodoStatus']
+
     ToDoListModel.find({UserName:UserName,TodoStatus:TodoStatus},(err,data)=>{
+        if(err){
+            res.status(400).json({status:"Fail",data:err})
+        }
+        else {
+            res.status(200).json({status:"Success",data:data})
+        }
+    })
+    
+}
+
+
+exports.SelectToDoByDate = (req,res)=>{
+    let UserName = req.headers['username']
+    let FromDate = req.body['FromDate']
+    let ToDate = req.body['ToDate']
+
+    ToDoListModel.find({UserName:UserName,TodoCreateDate:{$gte:new Date(FromDate),$lte:new Date(ToDate)}},(err,data)=>{
         if(err){
             res.status(400).json({status:"Fail",data:err})
         }
